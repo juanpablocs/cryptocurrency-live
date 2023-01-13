@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { EventEmitter } from 'events';
+import { SymbolPair } from '../constants';
 
 const INTERVAL = '1000m';
 const WS_BASE = 'wss://stream.binance.com:9443';
 const API_BASE = 'https://api.binance.com';
-const SYMBOL_DEFAULT = 'BTCUSDT';
 const SYMBOL_PLACEHOLDER = '<symbol>';
 const STREAM_CANDLESTICK_PATH = `/stream?streams=${SYMBOL_PLACEHOLDER}@kline_${INTERVAL}`;
 const STREAM_MINI_TICKER_PATH = `/stream?streams=!miniTicker@arr`;
@@ -70,8 +70,8 @@ class BinanceService extends EventEmitter {
     return `${this.getApiBase()}${apiMethod.aggTrades.url}?symbol=${symbols[0]}&limit=50`;
   }
 
-  getApiTickerUrl(symbols) {
-    return `${this.getApiBase()}${apiMethod.ticker.url}?symbols=${JSON.stringify(symbols)}&windowSize=1h`;
+  getApiTickerUrl(symbols, windowSize = '1h') {
+    return `${this.getApiBase()}${apiMethod.ticker.url}?symbols=${JSON.stringify(symbols)}&windowSize=${windowSize}`;
   }
 
   connectToStream() {
@@ -148,8 +148,8 @@ class BinanceService extends EventEmitter {
     }, {})
   }
 
-  async getInitialData(symbol = [SYMBOL_DEFAULT]) {
-    const response = await axios.get(this.getApiTickerUrl(symbol));
+  async getInitialData(windowSize) {
+    const response = await axios.get(this.getApiTickerUrl(Object.keys(SymbolPair), windowSize));
     return response.data;
   }
 }

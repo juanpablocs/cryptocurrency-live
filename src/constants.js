@@ -13,3 +13,5 @@ export const SymbolPairTitle = {
   [SymbolPair.ADAUSDT]: { short: 'ADA', full: 'Cardano' },
   [SymbolPair.DOTUSDT]: { short: 'DOT', full: 'Polkadot' },
 };
+
+export const SYMBOL_DEFAULT = SymbolPair.BTCUSDT;

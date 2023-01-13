@@ -144,12 +144,19 @@
   font-size: 10px;
   font-weight: 600;
   color: var(--light-color);
-
+  position: relative;
+  left: -3px;
 }
 
 .area__price p {
   font-size: 11px;
   font-weight: 600;
+  margin-top: -3px;
+}
+
+.area__price p svg {
+  position: relative;
+  bottom: -1px;
 }
 
 .area__chart {
@@ -163,7 +170,7 @@
 .area__bottom {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 5px;
+  gap: 10px;
 }
 
 .card-stat {

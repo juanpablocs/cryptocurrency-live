@@ -1,7 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { IoMdSettings } from 'react-icons/io';
 import { FiCoffee } from 'react-icons/fi';
+import { setWindowSize } from './../store/uiSlice';
+
 export const TopBar = () => {
+  const dispatch = useDispatch();
+  const windowSize = useSelector((state) => state.ui.windowSize);
+  const windowSizes = ['1h', '1d', '7d'];
+
   return (
     <>
       <div className='top--left'>
@@ -10,9 +17,9 @@ export const TopBar = () => {
 
       </div>
       <ul>
-        <li className='btn btn--active'>1h</li>
-        <li className='btn'>1d</li>
-        <li className='btn'>7d</li>
+        {windowSizes.map(size => (
+          <li key={size} onClick={() => dispatch(setWindowSize(size))} className={`btn ${size === windowSize ? 'btn--active' : ''}`}>{size}</li>
+        ))}
       </ul>
     </>
   )
