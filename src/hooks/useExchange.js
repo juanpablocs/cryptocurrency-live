@@ -4,12 +4,10 @@ import { binanceService, BinanceServiceEvent } from '../services/binance.service
 import { setLoading } from "../store/uiSlice";
 import { setCurrentPrice, setInitialPrice } from "../store/coinSlice";
 
-
 const NOTIFICATION_TEXT_DEFAULT = '';
 const TEXT_API_UNAVAILABLE = 'Binance api is unavailable.';
 const TEXT_STREAM_ERROR = 'Error in Binance data stream.';
 const TEXT_STREAM_RECONNECT = 'Reconnecting to Binance data stream';
-
 
 export default function useExchange(windowSize, currentSymbol) {
   const [currentPrices, setCurrentPrices] = useState({});
@@ -55,6 +53,12 @@ export default function useExchange(windowSize, currentSymbol) {
   }, [data, currentSymbol]);
 
   useEffect(() => {
+    if (currentPrices[currentSymbol]) {
+      dispatch(setCurrentPrice(currentPrices[currentSymbol]))
+    }
+  }, [currentPrices, currentSymbol]);
+
+  useEffect(() => {
     binanceService.on(BinanceServiceEvent.MESSAGE, events.handleStreamMessage);
     binanceService.on(BinanceServiceEvent.ERROR, events.handleStreamError);
     binanceService.on(BinanceServiceEvent.RECONNECT, events.handleStreamReconnect);
@@ -66,6 +70,7 @@ export default function useExchange(windowSize, currentSymbol) {
       binanceService.removeAllWebSocketListeners();
     }
   }, []);
+
   return {
     currentPrices,
     data

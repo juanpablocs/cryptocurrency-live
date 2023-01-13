@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SymbolPairTitle } from '../constants';
-import { setCurrentPrice, setCurrentSymbol, setInitialPrice } from '../store/coinSlice';
+import { setCurrentSymbol } from '../store/coinSlice';
 import useExchange from './../hooks/useExchange';
 import { Price } from './Price';
 
@@ -14,12 +14,6 @@ export const TickerList = () => {
   const handlerClick = (symbol) => {
     dispatch(setCurrentSymbol(symbol));
   };
-
-  useEffect(() => {
-    if (currentPrices[currentSymbol]) {
-      dispatch(setCurrentPrice(currentPrices[currentSymbol]))
-    }
-  }, [currentPrices, currentSymbol])
 
   return (
     <div>
