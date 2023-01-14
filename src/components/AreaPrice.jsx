@@ -12,7 +12,7 @@ export const AreaPrice = () => {
     <div className="area__price">
       {loading ? <p>loading...</p> : (
         <>
-          <h2>{priceFormat.format(currentPrice)} <small>USD</small></h2>
+          <h2>{priceFormat(currentPrice)} <small>USD</small></h2>
           <p>{percentageDiff > 0 ? <BsArrowUpRight /> : <BsArrowDownLeft />} <span className={percentageDiff > 0 ? 'color-green' : 'color-red'}>${(currentPrice - initialPrice).toFixed(2)} ({percentageDiff.toFixed(2)}%)</span></p>
         </>
       )}

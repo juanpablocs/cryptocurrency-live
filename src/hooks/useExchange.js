@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { binanceService, BinanceServiceEvent } from '../services/binance.service';
 import { setLoading } from "../store/uiSlice";
-import { setCurrentPrice, setInitialPrice } from "../store/coinSlice";
+import { setCurrentPrice, setInitialPrice, setVolume } from "../store/coinSlice";
 
 const NOTIFICATION_TEXT_DEFAULT = '';
 const TEXT_API_UNAVAILABLE = 'Binance api is unavailable.';
@@ -49,6 +49,7 @@ export default function useExchange(windowSize, currentSymbol) {
       const c = data.filter(d => d.symbol === currentSymbol)[0];
       dispatch(setInitialPrice(c?.openPrice));
       dispatch(setCurrentPrice(c?.lastPrice));
+      dispatch(setVolume(c?.quoteVolume));
     }
   }, [data, currentSymbol]);
 

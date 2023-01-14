@@ -15,7 +15,7 @@ export const Price = ({ value: currentPrice, defaultValue, initial: initialPrice
 
   return (
     <div className='price-percentage'>
-      <p>{priceFormat.format(finalPrice)}</p>
+      <p>{priceFormat(finalPrice)}</p>
       <small className={percentageDiff > 0 ? 'color-green' : 'color-red'}>{percentageDiff.toFixed(2)}%</small>
     </div>
   )

@@ -7,6 +7,7 @@ export const coinSlice = createSlice({
     currentSymbol: SYMBOL_DEFAULT,
     currentPrice: 0,
     initialPrice: 0,
+    volume: 0,
   },
   reducers: {
     setCurrentPrice: (state, action) => {
@@ -18,10 +19,13 @@ export const coinSlice = createSlice({
     setInitialPrice: (state, action) => {
       state.initialPrice = action.payload;
     },
+    setVolume: (state, action) => {
+      state.volume = action.payload;
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setCurrentPrice, setCurrentSymbol, setInitialPrice } = coinSlice.actions
+export const { setCurrentPrice, setCurrentSymbol, setInitialPrice, setVolume } = coinSlice.actions
 
 export default coinSlice.reducer
