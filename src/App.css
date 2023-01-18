@@ -2,12 +2,11 @@
   display: grid;
   margin: auto;
   justify-content: space-between;
-  max-width: 550px;
+  max-width: 560px;
   grid-template-areas: "top top" "area sidebar";
   grid-template-rows: 20px 1fr;
   grid-template-columns: 1fr 180px;
   gap: 7px;
-  margin-top: 7px;
 }
 
 .App__top {
@@ -162,9 +161,7 @@
 .area__chart {
   width: 100%;
   aspect-ratio: 16/9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
 }
 
 .area__bottom {
@@ -195,4 +192,21 @@
 .card-stat small {
   font-size: 8px;
   font-weight: 500;
+}
+
+.chartContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.area__chart__loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
 }

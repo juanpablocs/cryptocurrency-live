@@ -7,3 +7,17 @@ export const priceFormat = (value, fraction = 4) => (new Intl.NumberFormat('en-U
 })).format(value);
 
 export const priceCompact = (value) => (new Intl.NumberFormat('en', { notation: 'compact' })).format(value)
+
+
+// chart
+export const tooltipNumberFormatter = new Intl.NumberFormat('en-US', {
+  minimumFractionDigits: 3,
+});
+
+export const yAxisLabelNumberFormatter = new Intl.NumberFormat('en-US', {
+  minimumFractionDigits: 3,
+});
+
+export const crosshairLabelNumberFormatter = new Intl.NumberFormat('en-US', {
+  minimumFractionDigits: 3,
+});

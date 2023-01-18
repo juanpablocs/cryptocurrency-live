@@ -56,8 +56,6 @@ export default function useExchange(windowSize, currentSymbol) {
   useEffect(() => {
     if (currentPrices[currentSymbol]) {
       dispatch(setCurrentPrice(currentPrices[currentSymbol]));
-      chrome.storage.local.set({ price: currentPrices[currentSymbol], currentSymbol });
-
     }
   }, [currentPrices, currentSymbol]);
 

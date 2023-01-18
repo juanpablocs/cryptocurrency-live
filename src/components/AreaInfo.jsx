@@ -1,8 +1,9 @@
 import React from 'react'
-import { Chart } from './Chart';
+
 import { AreaPrice } from './AreaPrice';
 import { AreaInfoTop } from './AreaInfoTop';
 import { AreaBottom } from './AreaBottom';
+import { AreaChart } from './AreaChart';
 
 export const AreaInfo = () => {
 
@@ -10,9 +11,7 @@ export const AreaInfo = () => {
     <>
       <AreaInfoTop />
       <AreaPrice />
-      <div className="area__chart">
-        <Chart />
-      </div>
+      <AreaChart />
       <AreaBottom />
     </>
   )

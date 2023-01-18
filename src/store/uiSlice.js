@@ -11,7 +11,8 @@ export const uiSlice = createSlice({
   },
   reducers: {
     setPinSymbol: (state, action) => {
-      state.pinnedSymbol = action.payload
+      state.pinnedSymbol = action.payload;
+      chrome.storage?.local?.set({ pinSymbol: action.payload, currentSymbol: action.payload });
     },
     setFavorite: (state, action) => {
       state.favorites = [...state.favorites, action.payload];

@@ -11,8 +11,8 @@ export const AreaInfoTop = () => {
 
   const dispatch = useDispatch();
   const title = SymbolPairTitle[currentSymbol];
-  const code = title.short.toLowerCase();
-  const img = `/node_modules/cryptocurrency-icons/svg/color/${code}.svg`;
+  const code = (title?.short ?? 'generic').toLowerCase();
+  const img = `/img/coins/${code}.png`;
 
   const handlerClickPin = () => {
     dispatch(setPinSymbol(currentSymbol));
@@ -26,8 +26,8 @@ export const AreaInfoTop = () => {
     <div className='area__top'>
       <div>
         <img src={img} width={18} />
-        <h1>{title.full}</h1>
-        <small>{title.short}</small>
+        <h1>{title?.full}</h1>
+        <small>{title?.short}</small>
       </div>
       <div>
         <span onClick={handlerClickPin} className={`btn ${currentPin === currentSymbol ? 'btn--active' : ''}`}>{currentPin === currentSymbol ? <AiFillPushpin /> : <AiOutlinePushpin />}</span>

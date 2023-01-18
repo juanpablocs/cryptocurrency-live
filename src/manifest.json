@@ -1,6 +1,6 @@
 {
-  "name": "Timer Extension",
-  "description": "A Simple Timer Chrome Extension",
+  "name": "Crypto ticker",
+  "description": "Cryptocurrency live Chrome Extension",
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
@@ -11,12 +11,12 @@
     "default_icon": {
       "32": "img/icon.png"
     },
-    "default_title": "Timer Chrome Extension",
     "default_popup": "index.html"
   },
   "permissions": [
     "storage",
-    "alarms"
+    "alarms",
+    "webRequest"
   ],
   "background": {
     "service_worker": "background.js"

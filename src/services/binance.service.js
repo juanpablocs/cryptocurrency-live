@@ -2,7 +2,7 @@ import axios from 'axios';
 import { EventEmitter } from 'events';
 import { SymbolPair } from '../constants';
 
-const INTERVAL = '1000m';
+const INTERVAL = '1m';
 const WS_BASE = 'wss://stream.binance.com:9443';
 const API_BASE = 'https://api.binance.com';
 const SYMBOL_PLACEHOLDER = '<symbol>';
@@ -17,8 +17,8 @@ const apiMethod = {
   'depth': { 'url': '/api/v1/depth', 'method': 'GET' },
   'trades': { 'url': '/api/v1/trades', 'method': 'GET' },
   'historicalTrades': { 'url': '/api/v1/historicalTrades', 'method': 'GET' },
-  'aggTrades': { 'url': '/api/v1/aggTrades', 'method': 'GET' },
-  'klines': { 'url': '/api/v1/klines', 'method': 'GET' },
+  'aggTrades': { 'url': '/api/v3/aggTrades', 'method': 'GET' },
+  'klines': { 'url': '/api/v3/klines', 'method': 'GET' },
   'ticker24hr': { 'url': '/api/v1/ticker/24hr', 'method': 'GET' },
   'tickerPrice': { 'url': '/api/v3/ticker/price', 'method': 'GET' },
   'ticker': { 'url': '/api/v3/ticker', 'method': 'GET' },
@@ -62,12 +62,26 @@ class BinanceService extends EventEmitter {
     return `${this.getWsBase()}${STREAM_MINI_TICKER_PATH}`;
   }
 
-  getApiCandlestickUrl(symbol) {
-    return `${this.getApiBase()}${apiMethod.klines.url}?symbol=${symbol}&interval=${INTERVAL}&limit=2`;
+  getApiCandlestickUrl(symbol, windowSize) {
+    const endTime = Date.now();
+    const hours = {};
+    hours['1h'] = 1;
+    hours['1d'] = 24;
+    hours['7d'] = 24 * 7;
+
+    const interval = {};
+    interval['1h'] = '1m';
+    interval['1d'] = '1h';
+    interval['7d'] = '2h';
+
+    const startTime = endTime - ((hours[windowSize] || 1) * 60 * 60 * 1000);
+    console.log('startTime', new Date(startTime));
+    console.log('endTime', new Date(endTime));
+    return `${this.getApiBase()}${apiMethod.klines.url}?symbol=${symbol}&interval=${interval[windowSize] || '1h'}&limit=100&startTime=${startTime}&endTime=${endTime}`;
   }
 
-  getApiAggTradesUrl(symbols) {
-    return `${this.getApiBase()}${apiMethod.aggTrades.url}?symbol=${symbols[0]}&limit=50`;
+  getApiKlinesUrl(symbol) {
+    return `${this.getApiBase()}${apiMethod.klines.url}?symbol=${symbol}&limit=1000&startTime=${startTime}`;
   }
 
   getApiTickerUrl(symbols, windowSize = '1h') {
@@ -148,10 +162,40 @@ class BinanceService extends EventEmitter {
     }, {})
   }
 
+  apiCandlestickMapper(candlestick) {
+    // [
+    //   1499040000000,      // Open time
+    //   "0.01634790",       // Open
+    //   "0.80000000",       // High
+    //   "0.01575800",       // Low
+    //   "0.01577100",       // Close
+    //   "148976.11427815",  // Volume
+    //   1499644799999,      // Close time
+    //   "2434.19055334",    // Quote asset volume
+    //   308,                // Number of trades
+    //   "1756.87402397",    // Taker buy base asset volume
+    //   "28.46694368",      // Taker buy quote asset volume
+    //   "17928899.62484339" // Ignore.
+    // ]
+    const closeTime = candlestick[6];
+    // todo: check that parseFloat gets accurate number as for currency.
+    const closePrice = parseFloat(candlestick[4]);
+    return {
+      x: closeTime,
+      y: closePrice,
+    };
+  }
+
   async getInitialData(windowSize) {
     const response = await axios.get(this.getApiTickerUrl(Object.keys(SymbolPair), windowSize));
     return response.data;
   }
+
+  async getInitialDataChart(symbol, windowSize) {
+    const response = await axios.get(this.getApiCandlestickUrl(symbol, windowSize));
+    return response.data?.map(this.apiCandlestickMapper) || [];
+  }
+
 }
 
 const binanceService = new BinanceService();

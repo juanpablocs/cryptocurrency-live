@@ -11,10 +11,12 @@ export const coinSlice = createSlice({
   },
   reducers: {
     setCurrentPrice: (state, action) => {
-      state.currentPrice = action.payload
+      state.currentPrice = action.payload;
+      chrome.runtime?.sendMessage(JSON.stringify({ price: action.payload }));
     },
     setCurrentSymbol: (state, action) => {
-      state.currentSymbol = action.payload
+      state.currentSymbol = action.payload;
+      chrome.runtime?.sendMessage(JSON.stringify({ currentSymbol: action.payload }));
     },
     setInitialPrice: (state, action) => {
       state.initialPrice = action.payload;
