@@ -1,6 +1,6 @@
 {
-  "name": "Crypto ticker",
-  "description": "Cryptocurrency live Chrome Extension",
+  "name": "Binance Crypto ticker",
+  "description": "Cryptocurrency live ticker Chrome Extension",
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
