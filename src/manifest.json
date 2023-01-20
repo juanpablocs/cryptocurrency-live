@@ -1,7 +1,7 @@
 {
   "name": "Binance Crypto ticker",
   "description": "Cryptocurrency live ticker Chrome Extension",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "manifest_version": 3,
   "icons": {
     "48": "img/logo-128.png",
@@ -15,8 +15,7 @@
   },
   "permissions": [
     "storage",
-    "alarms",
-    "webRequest"
+    "alarms"
   ],
   "background": {
     "service_worker": "background.js"
